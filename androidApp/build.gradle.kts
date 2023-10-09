@@ -1,25 +1,12 @@
 plugins {
-    kotlin("multiplatform")
     id("com.android.application")
+    kotlin("android")
     id("org.jetbrains.compose")
-}
-
-kotlin {
-    androidTarget()
-    sourceSets {
-        val androidMain by getting {
-            dependencies {
-                implementation(project(":shared"))
-            }
-        }
-    }
 }
 
 android {
     compileSdk = (findProperty("android.compileSdk") as String).toInt()
     namespace = "com.akcay.cryptokmm.android"
-
-    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
 
     defaultConfig {
         applicationId = "com.akcay.cryptokmm.android"
@@ -28,11 +15,22 @@ android {
         versionCode = 1
         versionName = "1.0"
     }
+    buildFeatures {
+        compose = true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.2"
+    }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
-    kotlin {
-        jvmToolchain(17)
+    kotlinOptions {
+        jvmTarget = "11"
     }
+}
+
+dependencies {
+    implementation(project(":shared"))
+    implementation("androidx.activity:activity-compose:1.8.0")
 }
