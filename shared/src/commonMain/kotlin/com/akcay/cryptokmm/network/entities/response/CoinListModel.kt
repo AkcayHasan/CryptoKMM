@@ -8,7 +8,8 @@ import kotlinx.serialization.Serializable
 @Parcelize
 @Serializable
 data class CoinListModel(
-    @SerialName("")
+    @SerialName("coinImageUrl")
     val coinImageUrl: String,
-
+    @SerialName("coinName")
+    val coinName: String,
 ): Parcelable
