@@ -1,5 +1,6 @@
 package com.akcay.cryptokmm.ui.screens.mainscreen
 
+import CryptoKMM.shared.MR
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -8,45 +9,71 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.BottomNavigation
-import androidx.compose.material.BottomNavigationItem
-import androidx.compose.material.Icon
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
-import androidx.compose.material.TextField
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material3.Icon
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.akcay.cryptokmm.network.api.CoinApiImpl
+import com.akcay.cryptokmm.network.entities.response.CoinInfo
 import com.akcay.cryptokmm.network.entities.response.CoinListModel
+import com.akcay.cryptokmm.network.entities.response.Data
 import com.akcay.cryptokmm.ui.components.CoinListItemView
+import dev.icerock.moko.resources.compose.painterResource
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.IO
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
+
+var itemViews = CoinListModel()
 
 @Composable
 fun MainScreen() {
     val screens = listOf("Home", "Favourite", "Settings")
     var selectedScreen by remember { mutableStateOf(screens.first()) }
+    var tempList by remember { mutableStateOf(itemViews) }
 
-    val itemViews = listOf(
-        CoinListModel("", ""),
-        CoinListModel("", ""),
-        CoinListModel("", ""),
-        CoinListModel("", "")
-    )
+    getAllCoinList()
 
     Scaffold(bottomBar = {
-        BottomNavigation(backgroundColor = Color.White) {
+        NavigationBar(
+            containerColor = Color.White,
+            modifier = Modifier.clip(
+                RoundedCornerShape(
+                    topStart = 15.dp,
+                    topEnd = 15.dp,
+                    bottomStart = 0.dp,
+                    bottomEnd = 0.dp
+                )
+            )
+        ) {
             screens.forEach { screen ->
-                BottomNavigationItem(
+                NavigationBarItem(
                     icon = { Icon(getIconForScreen(screen), contentDescription = screen) },
                     selected = screen == selectedScreen,
                     onClick = { selectedScreen = screen },
@@ -58,15 +85,27 @@ fun MainScreen() {
         Column() {
             SearchBar()
             Row(
-                modifier = Modifier.fillMaxWidth().padding(5.dp),
+                modifier = Modifier.fillMaxWidth()
+                    .padding(start = 30.dp, end = 30.dp, top = 10.dp, bottom = 10.dp),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text(text = "Most Popular")
-                Icon(Icons.Filled.Home, contentDescription = null)
+                Text(
+                    text = "Most Popular",
+                    fontSize = 15.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    color = Color.Gray
+                )
+                Icon(
+                    painterResource(MR.images.filter_icon),
+                    contentDescription = null,
+                    tint = Color.Gray
+                )
             }
             LazyColumn(modifier = Modifier.fillMaxSize()) {
-                items(itemViews) { item: CoinListModel ->
-                    CoinListItemView(coinListModel = item)
+                items(tempList.data) { item ->
+                    item.coinInfo?.let {
+                        CoinListItemView(it)
+                    }
                 }
             }
 
@@ -77,13 +116,25 @@ fun MainScreen() {
 
 }
 
+fun getAllCoinList() {
+    CoroutineScope(Dispatchers.IO).launch {
+        MainScreenViewModel(CoinApiImpl()).apply {
+            this.getAllCoinList()
+            this.coinList.collect {
+                itemViews = it
+            }
+        }
+
+    }
+}
+
 @Composable
-fun getIconForScreen(screen: String): ImageVector {
+fun getIconForScreen(screen: String): Painter {
     return when (screen) {
-        "Home" -> Icons.Default.Home
-        "Favourite" -> Icons.Default.Favorite
-        "Settings" -> Icons.Default.Settings
-        else -> Icons.Default.Home
+        "Home" -> painterResource(MR.images.home_icon)
+        "Favourite" -> painterResource(MR.images.favourite_icon)
+        "Settings" -> painterResource(MR.images.settings_icon)
+        else -> painterResource(MR.images.home_icon)
     }
 }
 
@@ -93,10 +144,21 @@ fun SearchBar() {
     var text by remember { mutableStateOf("") }
 
     TextField(
+        modifier = Modifier.fillMaxWidth().padding(start = 20.dp, top = 20.dp, end = 20.dp),
+        colors = TextFieldDefaults.colors(
+            focusedContainerColor = Color(0xF2F2F2),
+            unfocusedContainerColor = Color(0xF2F2F2),
+            unfocusedPlaceholderColor = Color.Gray,
+            focusedPlaceholderColor = Color.Gray,
+            unfocusedIndicatorColor = Color.Transparent,
+            focusedIndicatorColor = Color.Transparent
+        ),
         value = text,
         onValueChange = { text = it },
         placeholder = { Text("Search") },
-        leadingIcon = { Icon(Icons.Filled.Search, contentDescription = null) },
-        modifier = Modifier.fillMaxWidth()
+        shape = RoundedCornerShape(10.dp),
+        leadingIcon = { Icon(Icons.Filled.Search, contentDescription = null) }
     )
+
+
 }

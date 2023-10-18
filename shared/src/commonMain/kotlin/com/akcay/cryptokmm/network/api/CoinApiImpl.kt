@@ -12,16 +12,33 @@ import io.ktor.http.encodedPath
 import io.ktor.http.takeFrom
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import kotlinx.serialization.json.Json
 
-class CoinApiImpl: CoinApi {
-    override suspend fun getAllCoinList(): Flow<List<CoinListModel>> {
-        return client.get {
+class CoinApiImpl : CoinApi {
+    override suspend fun getAllCoinList(): Flow<CoinListModel> = flow {
+        emit(
+            client.get {
+                headers {
+                    append(
+                        "authorization",
+                        "a17642370a98b643021e72241aa4de538957c0b08a0c461b7a034d591a3aa7a7"
+                    )
+                    coinEndPoints("data/top/totalvolfull?limit=20&tsym=USD")
+                }
+            }
+                .body()
+        )
+    }
+
+    /*
+    return client.get {
             headers {
-                coinEndPoints("asdasd")
+                append("authorization: Apikey", "a17642370a98b643021e72241aa4de538957c0b08a0c461b7a034d591a3aa7a7")
+                coinEndPoints("data/top/totalvolfull?limit=20&tsym=USD")
             }
         }.body()
-    }
+     */
 
     private val client = HttpClient {
         expectSuccess = true
@@ -38,7 +55,7 @@ class CoinApiImpl: CoinApi {
 
     private fun HttpRequestBuilder.coinEndPoints(path: String) {
         url {
-            takeFrom("https://api.spotify.com/v1/")
+            takeFrom("https://min-api.cryptocompare.com/")
             encodedPath = path
         }
 

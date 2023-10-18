@@ -7,6 +7,6 @@ import kotlinx.serialization.Serializable
 
 @Parcelize
 @Serializable
-data class CoinListModel(
-    @SerialName("Data") var data: List<Data> = listOf()
+data class Data(
+    @SerialName("CoinInfo") var coinInfo: CoinInfo? = CoinInfo()
 ) : Parcelable
