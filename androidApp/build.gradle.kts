@@ -34,4 +34,5 @@ dependencies {
     implementation(project(":shared"))
     implementation("androidx.activity:activity-compose:1.8.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.2")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.4.1")
 }

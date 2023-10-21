@@ -22,12 +22,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
@@ -42,23 +37,24 @@ import com.akcay.cryptokmm.network.entities.response.CoinInfo
 import com.akcay.cryptokmm.network.entities.response.CoinListModel
 import com.akcay.cryptokmm.network.entities.response.Data
 import com.akcay.cryptokmm.ui.components.CoinListItemView
+import dev.icerock.moko.mvvm.compose.getViewModel
 import dev.icerock.moko.resources.compose.painterResource
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-
-var itemViews = CoinListModel()
 
 @Composable
 fun MainScreen() {
     val screens = listOf("Home", "Favourite", "Settings")
     var selectedScreen by remember { mutableStateOf(screens.first()) }
-    var tempList by remember { mutableStateOf(itemViews) }
+    val viewModel = remember { MainScreenViewModel(CoinApiImpl()) }
 
-    getAllCoinList()
+    viewModel.getAllCoinList()
 
     Scaffold(bottomBar = {
         NavigationBar(
@@ -101,8 +97,9 @@ fun MainScreen() {
                     tint = Color.Gray
                 )
             }
+            val coinList by viewModel.coinList.collectAsState()
             LazyColumn(modifier = Modifier.fillMaxSize()) {
-                items(tempList.data) { item ->
+                items(coinList.data) { item ->
                     item.coinInfo?.let {
                         CoinListItemView(it)
                     }
@@ -111,20 +108,10 @@ fun MainScreen() {
 
         }
 
-    }
-
-
-}
-
-fun getAllCoinList() {
-    CoroutineScope(Dispatchers.IO).launch {
-        MainScreenViewModel(CoinApiImpl()).apply {
-            this.getAllCoinList()
-            this.coinList.collect {
-                itemViews = it
-            }
+        DisposableEffect(Unit) {
+            viewModel.getAllCoinList()
+            onDispose { }
         }
-
     }
 }
 

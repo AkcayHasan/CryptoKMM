@@ -42,6 +42,7 @@ kotlin {
                 implementation("media.kamel:kamel-image:0.8.0")
                 api("dev.icerock.moko:resources:${mokoResourcesVersion}")
                 api("dev.icerock.moko:resources-compose:${mokoResourcesVersion}")
+                implementation("dev.icerock.moko:mvvm-compose:0.16.1")
             }
         }
         val androidMain by getting {
