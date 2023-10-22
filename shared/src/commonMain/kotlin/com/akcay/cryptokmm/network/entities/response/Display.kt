@@ -7,7 +7,6 @@ import kotlinx.serialization.Serializable
 
 @Parcelize
 @Serializable
-data class Data(
-    @SerialName("CoinInfo") var coinInfo: CoinInfo? = CoinInfo(),
-    @SerialName("DISPLAY") var display: DISPLAY? = DISPLAY()
+data class DISPLAY(
+    @SerialName("USD") var usd: USD? = USD()
 ) : Parcelable

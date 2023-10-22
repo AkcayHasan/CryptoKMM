@@ -85,7 +85,7 @@ fun MainScreen() {
             LazyColumn(modifier = Modifier.fillMaxSize()) {
                 items(coinList.data) { item ->
                     item.coinInfo?.let {
-                        CoinListItemView(it)
+                        CoinListItemView(it, item.display)
                     }
                 }
             }

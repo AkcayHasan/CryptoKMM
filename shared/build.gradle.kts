@@ -39,9 +39,11 @@ kotlin {
                 implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.2")
-                implementation("media.kamel:kamel-image:0.8.0")
+                implementation("media.kamel:kamel-image:0.8.1")
                 api("dev.icerock.moko:resources:${mokoResourcesVersion}")
                 api("dev.icerock.moko:resources-compose:${mokoResourcesVersion}")
+                api("io.github.qdsfdhvh:image-loader:1.6.8")
+                api("io.github.qdsfdhvh:image-loader-extension-moko-resources:1.6.8")
                 implementation("dev.icerock.moko:mvvm-compose:0.16.1")
             }
         }
