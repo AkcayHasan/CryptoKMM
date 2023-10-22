@@ -17,6 +17,8 @@ import com.akcay.cryptokmm.network.entities.response.CoinInfo
 import com.akcay.cryptokmm.network.entities.response.DISPLAY
 import com.seiko.imageloader.rememberImagePainter
 
+var BASE_URL = "https://www.cryptocompare.com"
+
 @Composable
 fun CoinListItemView(coinInfo: CoinInfo, display: DISPLAY? = null) {
     Box(
@@ -26,7 +28,7 @@ fun CoinListItemView(coinInfo: CoinInfo, display: DISPLAY? = null) {
             ).background(Color(0xF2F2F2))
     ) {
         Row(horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
-            val painter = rememberImagePainter("https://www.cryptocompare.com${coinInfo.imageUrl}")
+            val painter = rememberImagePainter("$BASE_URL${coinInfo.imageUrl}")
             Image(painter, contentDescription = null, modifier = Modifier.width(40.dp).height(40.dp))
             Spacer(modifier = Modifier.width(10.dp))
             Row(modifier = Modifier.fillMaxSize().padding(top = 10.dp, end = 10.dp, bottom = 10.dp),horizontalArrangement = Arrangement.SpaceBetween) {
