@@ -11,10 +11,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -25,28 +22,14 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.akcay.cryptokmm.network.api.CoinApiImpl
-import com.akcay.cryptokmm.network.entities.response.CoinInfo
-import com.akcay.cryptokmm.network.entities.response.CoinListModel
-import com.akcay.cryptokmm.network.entities.response.Data
 import com.akcay.cryptokmm.ui.components.CoinListItemView
-import dev.icerock.moko.mvvm.compose.getViewModel
 import dev.icerock.moko.resources.compose.painterResource
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.IO
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 
 @Composable
 fun MainScreen() {
@@ -55,6 +38,8 @@ fun MainScreen() {
     val viewModel = remember { MainScreenViewModel(CoinApiImpl()) }
 
     viewModel.getAllCoinList()
+
+    val coinList by viewModel.coinList.collectAsState()
 
     Scaffold(bottomBar = {
         NavigationBar(
@@ -97,7 +82,6 @@ fun MainScreen() {
                     tint = Color.Gray
                 )
             }
-            val coinList by viewModel.coinList.collectAsState()
             LazyColumn(modifier = Modifier.fillMaxSize()) {
                 items(coinList.data) { item ->
                     item.coinInfo?.let {
@@ -106,11 +90,6 @@ fun MainScreen() {
                 }
             }
 
-        }
-
-        DisposableEffect(Unit) {
-            viewModel.getAllCoinList()
-            onDispose { }
         }
     }
 }

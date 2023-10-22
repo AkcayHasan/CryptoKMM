@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.akcay.cryptokmm.network.entities.response.CoinInfo
 import dev.icerock.moko.resources.compose.painterResource
+import io.kamel.image.KamelImage
 import io.kamel.image.asyncPainterResource
 import io.ktor.http.Url
 
@@ -38,7 +39,8 @@ fun CoinListItemView(coinInfo: CoinInfo) {
             ).background(Color(0xF2F2F2))
     ) {
         Row(horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
-            asyncPainterResource(data = Url(coinInfo.imageUrl ?: ""))
+            //KamelImage(asyncPainterResource(data = Url(coinInfo.imageUrl ?: "")), contentDescription = null)
+            Image(painterResource(MR.images.coin), contentDescription = null)
             Spacer(modifier = Modifier.width(10.dp))
             Row(modifier = Modifier.fillMaxSize().padding(top = 10.dp, end = 10.dp, bottom = 10.dp),horizontalArrangement = Arrangement.SpaceBetween) {
                 Column(horizontalAlignment = Alignment.Start) {
