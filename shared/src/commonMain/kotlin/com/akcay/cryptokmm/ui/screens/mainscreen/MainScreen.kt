@@ -40,6 +40,7 @@ fun MainScreen() {
     viewModel.getAllCoinList()
 
     val coinList by viewModel.coinList.collectAsState()
+    val searchText by viewModel.searchText.collectAsState()
 
     Scaffold(bottomBar = {
         NavigationBar(
@@ -64,7 +65,7 @@ fun MainScreen() {
         }
     }) {
         Column() {
-            SearchBar()
+            SearchBar(searchText, viewModel::onSearchQueryChange)
             Row(
                 modifier = Modifier.fillMaxWidth()
                     .padding(start = 30.dp, end = 30.dp, top = 10.dp, bottom = 10.dp),
@@ -83,7 +84,7 @@ fun MainScreen() {
                 )
             }
             LazyColumn(modifier = Modifier.fillMaxSize()) {
-                items(coinList.data) { item ->
+                items(coinList) { item ->
                     item.coinInfo?.let {
                         CoinListItemView(it, item.display)
                     }
@@ -106,8 +107,7 @@ fun getIconForScreen(screen: String): Painter {
 
 
 @Composable
-fun SearchBar() {
-    var text by remember { mutableStateOf("") }
+fun SearchBar(text: String, onQueryChange: (String) -> Unit) {
 
     TextField(
         modifier = Modifier.fillMaxWidth().padding(start = 20.dp, top = 20.dp, end = 20.dp),
@@ -120,7 +120,7 @@ fun SearchBar() {
             focusedIndicatorColor = Color.Transparent
         ),
         value = text,
-        onValueChange = { text = it },
+        onValueChange = onQueryChange,
         placeholder = { Text("Search") },
         shape = RoundedCornerShape(10.dp),
         leadingIcon = { Icon(Icons.Filled.Search, contentDescription = null) }
