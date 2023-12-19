@@ -10,7 +10,6 @@ import io.ktor.client.request.get
 import io.ktor.client.request.headers
 import io.ktor.http.encodedPath
 import io.ktor.http.takeFrom
-import io.ktor.serialization.kotlinx.json.json
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.serialization.json.Json
@@ -48,9 +47,9 @@ class CoinApiImpl : CoinApi {
             requestTimeoutMillis = timeout
             socketTimeoutMillis = timeout
         }
-        install(ContentNegotiation) {
+        /*install(ContentNegotiation) {
             json(Json { isLenient = true; ignoreUnknownKeys = true })
-        }
+        }*/
     }
 
     private fun HttpRequestBuilder.coinEndPoints(path: String) {

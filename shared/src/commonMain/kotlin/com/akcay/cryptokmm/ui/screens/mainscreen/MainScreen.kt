@@ -126,5 +126,8 @@ fun SearchBar(text: String, onQueryChange: (String) -> Unit) {
         leadingIcon = { Icon(Icons.Filled.Search, contentDescription = null) }
     )
 
+}
+@Composable
+fun MainScreenPreview() {
 
 }

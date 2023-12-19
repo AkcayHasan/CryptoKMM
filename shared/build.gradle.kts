@@ -1,10 +1,10 @@
 plugins {
-    kotlin("multiplatform")
-    id("com.android.library")
-    id("org.jetbrains.compose")
-    kotlin("plugin.serialization")
-    id("kotlin-parcelize")
-    id("dev.icerock.mobile.multiplatform-resources")
+    alias(libs.plugins.multiplatform)
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlinX.serialization.plugin)
+    alias(libs.plugins.kotlinX.parcelable.plugin)
+    alias(libs.plugins.compose.multiplatform)
+    alias(libs.plugins.moko.plugin)
 }
 
 kotlin {
@@ -22,38 +22,48 @@ kotlin {
     }
 
     sourceSets {
-        val ktorVersion = "2.3.5"
         val commonMain by getting {
-            val mokoResourcesVersion = extra["moko.resources.version"] as String
             dependencies {
+                api(libs.koin.core)
+                api(libs.koin.compose)
+
+                implementation(libs.voyager.navigator)
+                implementation(libs.voyager.bottomSheetNavigator)
+                implementation(libs.voyager.transitions)
+                implementation(libs.voyager.tabNavigator)
+
                 implementation(compose.runtime)
                 implementation(compose.foundation)
                 implementation(compose.material3)
+                implementation(compose.material)
+
                 @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
                 implementation(compose.components.resources)
-                implementation("io.ktor:ktor-client-core:$ktorVersion")
-                implementation("io.ktor:ktor-client-json:$ktorVersion")
-                implementation("io.ktor:ktor-client-logging:$ktorVersion")
-                implementation("io.ktor:ktor-client-serialization:$ktorVersion")
-                implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
-                implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.2")
-                implementation("media.kamel:kamel-image:0.8.1")
-                api("dev.icerock.moko:resources:${mokoResourcesVersion}")
-                api("dev.icerock.moko:resources-compose:${mokoResourcesVersion}")
-                api("io.github.qdsfdhvh:image-loader:1.6.8")
-                api("io.github.qdsfdhvh:image-loader-extension-moko-resources:1.6.8")
-                implementation("dev.icerock.moko:mvvm-compose:0.16.1")
+
+                implementation(libs.ktor.core)
+                implementation(libs.ktor.json)
+                implementation(libs.ktor.logging)
+                implementation(libs.ktor.serialization)
+                implementation(libs.ktor.contentNegotiation)
+                implementation(libs.ktor.json)
+
+                implementation(libs.kotlinX.serializationJson)
+
+                implementation(libs.moko.resources)
+                implementation(libs.moko.compose)
+                implementation(libs.moko.mvvmCompose)
+
+                implementation(libs.image.loader)
+
+                implementation(libs.stdlib)
             }
         }
         val androidMain by getting {
             dependsOn(commonMain)
             dependencies {
-                api("androidx.activity:activity-compose:1.7.2")
-                api("androidx.appcompat:appcompat:1.6.1")
-                api("androidx.core:core-ktx:1.10.1")
-                implementation("io.ktor:ktor-client-okhttp:$ktorVersion")
+                implementation(libs.compose.activity)
+                implementation(libs.core)
+                implementation(libs.ktor.clientOkhttp)
             }
         }
         val iosX64Main by getting
@@ -65,7 +75,7 @@ kotlin {
             iosArm64Main.dependsOn(this)
             iosSimulatorArm64Main.dependsOn(this)
             dependencies {
-                implementation("io.ktor:ktor-client-darwin:$ktorVersion")
+                implementation(libs.ktor.clientDarwin)
             }
         }
     }
