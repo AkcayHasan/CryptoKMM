@@ -64,6 +64,8 @@ kotlin {
                 implementation(libs.compose.activity)
                 implementation(libs.core)
                 implementation(libs.ktor.clientOkhttp)
+                implementation(libs.tooling.preview)
+                implementation(libs.ui.tooling)
             }
         }
         val iosX64Main by getting
@@ -88,6 +90,14 @@ android {
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     sourceSets["main"].res.srcDirs("src/androidMain/res")
     sourceSets["main"].resources.srcDirs("src/commonMain/resources")
+
+    buildFeatures {
+        compose = true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.2"
+    }
 
     defaultConfig {
         minSdk = (findProperty("android.minSdk") as String).toInt()

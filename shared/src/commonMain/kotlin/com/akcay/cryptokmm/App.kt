@@ -11,9 +11,7 @@ import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.transitions.SlideTransition
 import com.akcay.cryptokmm.ui.screens.mainscreen.MainScreen
-import com.akcay.cryptokmm.ui.screens.mainscreen.NewMainScreen
 import org.koin.compose.KoinContext
-import org.koin.core.context.startKoin
 
 @Composable
 fun App() {
@@ -27,7 +25,7 @@ fun App() {
             color = MaterialTheme.colorScheme.background
         ) {
             Navigator(
-                screen = NewMainScreen(),
+                screen = MainScreen(),
             ) {
                 CompositionLocalProvider(localAppNavigator provides it) {
                     SlideTransition(navigator = it)

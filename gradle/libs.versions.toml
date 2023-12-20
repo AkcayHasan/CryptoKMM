@@ -16,6 +16,8 @@ annotationJvm = "1.7.1"
 moko = "0.23.0"
 ktor = "2.3.5"
 seiko = "1.6.8"
+preview = "1.5.4"
+ui-tooling = "1.5.4"
 
 [plugins]
 compose-multiplatform = { id = "org.jetbrains.compose", version.ref = "compose" }
@@ -47,6 +49,8 @@ ktor-json = { module = "io.ktor:ktor-client-json", version.ref = "ktor" }
 ktor-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
 ktor-serialization = { module = "io.ktor:ktor-client-serialization", version.ref = "ktor" }
 ktor-contentNegotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
+tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "preview" }
+ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "ui-tooling" }
 
 image-loader = { module = "io.github.qdsfdhvh:image-loader", version.ref = "seiko" }
 
