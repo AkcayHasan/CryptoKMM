@@ -2,4 +2,9 @@
 <resources>
     <string name="hello_world">Hello World</string>
     <string name="hello_x">Hello %s</string>
+
+    <string name="search_bar_hint_text">Search for a name or symbol</string>
+
+    <string name="favourite_screen_title">Favourites</string>
+    <string name="settings_screen_title">Settings</string>
 </resources>

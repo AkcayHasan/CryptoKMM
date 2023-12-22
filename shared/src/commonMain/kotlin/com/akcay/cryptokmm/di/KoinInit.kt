@@ -10,7 +10,8 @@ class KoinInit {
         return startKoin {
             modules(
                 listOf(
-                    sharedModule()
+                    sharedModule(),
+                    networkModule()
                 )
             )
             appDeclaration()

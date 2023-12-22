@@ -9,12 +9,16 @@ import org.koin.dsl.module
 
 fun sharedModule() = module {
 
-    single<CoinApi> {
+    factory<CoinApi> {
         CoinApiImpl()
     }
 
     single {
-        HomeScreenViewModel(coinApiImpl = get())
+        HomeScreenViewModel(coinApi = get())
+    }
+
+    single {
+        FavouriteScreenViewModel()
     }
 
     single {

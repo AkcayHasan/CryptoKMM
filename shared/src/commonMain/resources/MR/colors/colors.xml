@@ -36,4 +36,8 @@
         <light>0xF8E545</light>
         <dark>0xF8E545</dark>
     </color>
+
+    <color name="componentGray">#F2F2F2</color>
+    <color name="buttonRed">#EB5757</color>
+    <color name="textGray">#828282</color>
 </resources>

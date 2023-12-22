@@ -10,6 +10,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SearchBar
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
@@ -23,6 +24,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.akcay.cryptokmm.ui.components.CoinListItemView
+import com.akcay.cryptokmm.ui.components.CustomSearchBar
 import dev.icerock.moko.resources.compose.painterResource
 import org.koin.compose.koinInject
 
@@ -31,10 +33,6 @@ fun HomeScreen(
     screenModel: HomeScreenViewModel = koinInject()
 ) {
 
-    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        Text(text = "Home Screen")
-    }
-
     screenModel.getAllCoinList()
 
     val coinList by screenModel.coinList.collectAsState()
@@ -42,7 +40,7 @@ fun HomeScreen(
 
     Scaffold() {
         Column() {
-            SearchBar(searchText, screenModel::onSearchQueryChange)
+            CustomSearchBar(modifier = Modifier, searchText, screenModel::onSearchQueryChange)
             Row(
                 modifier = Modifier.fillMaxWidth()
                     .padding(start = 30.dp, end = 30.dp, top = 10.dp, bottom = 10.dp),
@@ -80,27 +78,4 @@ fun getIconForScreen(screen: String): Painter {
         "Settings" -> painterResource(MR.images.settings_icon)
         else -> painterResource(MR.images.home_icon)
     }
-}
-
-
-@Composable
-fun SearchBar(text: String, onQueryChange: (String) -> Unit) {
-
-    TextField(
-        modifier = Modifier.fillMaxWidth().padding(start = 20.dp, top = 20.dp, end = 20.dp),
-        colors = TextFieldDefaults.colors(
-            focusedContainerColor = Color(0xF2F2F2),
-            unfocusedContainerColor = Color(0xF2F2F2),
-            unfocusedPlaceholderColor = Color.Gray,
-            focusedPlaceholderColor = Color.Gray,
-            unfocusedIndicatorColor = Color.Transparent,
-            focusedIndicatorColor = Color.Transparent
-        ),
-        value = text,
-        onValueChange = onQueryChange,
-        placeholder = { androidx.compose.material3.Text("Search") },
-        shape = RoundedCornerShape(10.dp),
-        leadingIcon = { Icon(Icons.Filled.Search, contentDescription = null) }
-    )
-
 }
