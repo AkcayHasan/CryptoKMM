@@ -1,6 +1,7 @@
 package com.akcay.cryptokmm.network.api
 
 import com.akcay.cryptokmm.network.entities.response.CoinListModel
+import com.akcay.cryptokmm.network.entities.response.CoinNewsModelItem
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.plugins.HttpTimeout
@@ -29,6 +30,20 @@ class CoinApiImpl : CoinApi {
             }.body()
 
 
+        )
+    }
+
+    override suspend fun getCoinNews(): Flow<ArrayList<CoinNewsModelItem>> = flow {
+        emit(
+            client.get {
+                headers {
+                    append(
+                        "authorization",
+                        "a17642370a98b643021e72241aa4de538957c0b08a0c461b7a034d591a3aa7a7"
+                    )
+                    coinEndPoints("data/news/feeds")
+                }
+            }.body()
         )
     }
 

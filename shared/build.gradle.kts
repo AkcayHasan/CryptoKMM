@@ -56,6 +56,12 @@ kotlin {
                 implementation(libs.image.loader)
 
                 implementation(libs.stdlib)
+
+                implementation(libs.vico.compose)
+                implementation(libs.vico.compose.m2)
+                implementation(libs.vico.compose.m3)
+                implementation(libs.vico.core)
+                implementation(libs.vico.views)
             }
         }
         val androidMain by getting {

@@ -2,6 +2,7 @@ package com.akcay.cryptokmm.di
 
 import com.akcay.cryptokmm.network.api.CoinApi
 import com.akcay.cryptokmm.network.api.CoinApiImpl
+import com.akcay.cryptokmm.ui.screens.detailscreen.DetailScreenViewModel
 import com.akcay.cryptokmm.ui.screens.favouritescreen.FavouriteScreenViewModel
 import com.akcay.cryptokmm.ui.screens.homescreen.HomeScreenViewModel
 import com.akcay.cryptokmm.ui.screens.settingsscreen.SettingsScreenViewModel
@@ -15,6 +16,10 @@ fun sharedModule() = module {
 
     single {
         HomeScreenViewModel(coinApi = get())
+    }
+
+    single {
+        DetailScreenViewModel(coinApi = get())
     }
 
     single {
