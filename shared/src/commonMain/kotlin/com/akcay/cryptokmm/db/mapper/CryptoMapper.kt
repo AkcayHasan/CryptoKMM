@@ -5,7 +5,6 @@ import com.akcay.cryptokmm.network.entities.response.DISPLAY
 import com.akcay.cryptokmm.network.entities.response.Data
 import com.akcay.cryptokmm.network.entities.response.RAW
 import com.akcay.cryptokmm.network.entities.response.USD
-import com.akcay.cryptokmm.ui.utils.getPercentageText
 import database.CryptoEntity
 
 fun CryptoEntity.toCrypto() = Data(
@@ -20,7 +19,7 @@ fun CryptoEntity.toCrypto() = Data(
     RAW(),
     DISPLAY(
         USD(
-            highHour, price
+            highHour, price, changePercentageHour
         )
     )
 )
@@ -33,5 +32,6 @@ fun Data.toCryptoEntity() = CryptoEntity(
     imageUrl = this.coinInfo?.imageUrl,
     url = this.coinInfo?.url,
     price = this.display?.usd?.price,
-    highHour = getPercentageText(this.display?.usd?.changePercentageHour, this.display?.usd?.highHour)
+    highHour = this.display?.usd?.highHour,
+    changePercentageHour = this.display?.usd?.changePercentageHour
 )

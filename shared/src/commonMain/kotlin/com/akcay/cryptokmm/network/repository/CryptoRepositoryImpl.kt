@@ -33,7 +33,8 @@ class CryptoRepositoryImpl(
                 imageUrl = it.imageUrl,
                 url = it.url,
                 highHour = it.highHour,
-                price = it.price
+                price = it.price,
+                changePercentageHour = it.changePercentageHour
             )
         }
     }

@@ -14,7 +14,3 @@ fun ProvideAppNavigator(navigator: Navigator, content: @Composable () -> Unit) {
         content()
     }
 }
-
-fun getPercentageText(percentage: String?, highHour: String?): String {
-    return "$percentage% ($highHour)"
-}
