@@ -56,7 +56,7 @@ fun FavouriteScreen(
             LazyColumn(modifier = Modifier.fillMaxSize()) {
                 items(coinList) { item ->
                     item.coinInfo?.let {
-                        CoinListItemView(it, item.display) {
+                        CoinListItemView(item) {
 
                         }
                     }

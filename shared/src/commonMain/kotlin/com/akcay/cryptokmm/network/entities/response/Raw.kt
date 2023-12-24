@@ -7,8 +7,6 @@ import kotlinx.serialization.Serializable
 
 @Parcelize
 @Serializable
-data class Data(
-    @SerialName("CoinInfo") var coinInfo: CoinInfo? = CoinInfo(),
-    @SerialName("RAW") var raw: RAW? = RAW(),
-    @SerialName("DISPLAY") var display: DISPLAY? = DISPLAY()
+data class RAW(
+    @SerialName("USD") var usd: RawUSD? = RawUSD()
 ) : Parcelable

@@ -14,14 +14,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.akcay.cryptokmm.network.entities.response.CoinInfo
-import com.akcay.cryptokmm.network.entities.response.DISPLAY
+import com.akcay.cryptokmm.network.entities.response.Data
 import com.seiko.imageloader.rememberImagePainter
 
 var BASE_URL = "https://www.cryptocompare.com"
 
 @Composable
-fun CoinListItemView(coinInfo: CoinInfo, display: DISPLAY? = null, onClickItem: () -> Unit) {
+fun CoinListItemView(coin: Data?, onClickItem: () -> Unit) {
     Box(
         modifier = Modifier.fillMaxWidth()
             .padding(start = 20.dp, bottom = 10.dp, end = 20.dp).clip(
@@ -34,7 +33,7 @@ fun CoinListItemView(coinInfo: CoinInfo, display: DISPLAY? = null, onClickItem: 
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            val painter = rememberImagePainter("$BASE_URL${coinInfo.imageUrl}")
+            val painter = rememberImagePainter("$BASE_URL${coin?.coinInfo?.imageUrl}")
             Image(
                 painter,
                 contentDescription = null,
@@ -46,20 +45,20 @@ fun CoinListItemView(coinInfo: CoinInfo, display: DISPLAY? = null, onClickItem: 
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Column(horizontalAlignment = Alignment.Start) {
-                    Text(text = coinInfo.name ?: "", fontWeight = FontWeight.Bold, fontSize = 17.sp)
+                    Text(text = coin?.coinInfo?.name ?: "", fontWeight = FontWeight.Bold, fontSize = 17.sp)
                     Spacer(modifier = Modifier.height(10.dp))
-                    Text(text = coinInfo.fullName ?: "", fontSize = 13.sp)
+                    Text(text = coin?.coinInfo?.fullName ?: "", fontSize = 13.sp)
                 }
                 Column(horizontalAlignment = Alignment.End) {
                     Text(
-                        text = display?.usd?.price ?: "",
+                        text = coin?.display?.usd?.price ?: "",
                         fontWeight = FontWeight.Bold,
                         fontSize = 17.sp
                     )
                     Spacer(modifier = Modifier.height(10.dp))
                     PercentageView(
-                        display?.usd?.changePercentageHour,
-                        display?.usd?.highHour,
+                        coin?.display?.usd?.changePercentageHour,
+                        coin?.display?.usd?.highHour,
                         fontSize = 13.sp
                     )
                 }

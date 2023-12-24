@@ -3,6 +3,7 @@ package com.akcay.cryptokmm.db.mapper
 import com.akcay.cryptokmm.network.entities.response.CoinInfo
 import com.akcay.cryptokmm.network.entities.response.DISPLAY
 import com.akcay.cryptokmm.network.entities.response.Data
+import com.akcay.cryptokmm.network.entities.response.RAW
 import com.akcay.cryptokmm.network.entities.response.USD
 import com.akcay.cryptokmm.ui.utils.getPercentageText
 import database.CryptoEntity
@@ -16,6 +17,7 @@ fun CryptoEntity.toCrypto() = Data(
         imageUrl = imageUrl,
         url = url
     ),
+    RAW(),
     DISPLAY(
         USD(
             highHour, price
