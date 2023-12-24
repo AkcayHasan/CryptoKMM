@@ -16,7 +16,9 @@ class HomeScreenViewModel(
 
 ) : ScreenModel {
     private val _searchText = MutableStateFlow("")
+    private val _sortingOption = MutableStateFlow(SortOptions.DEFAULT)
     val searchText = _searchText.asStateFlow()
+    private val sortingOption = _sortingOption.asStateFlow()
 
     private val _coinList = MutableStateFlow(CoinListModel())
 
@@ -25,6 +27,14 @@ class HomeScreenViewModel(
         coinList.data.filter {
             it.coinInfo?.fullName?.lowercase()?.contains(searchText.lowercase()) ?: false
         }
+            when(sortingOption.value){
+                SortOptions.DEFAULT -> coinList.data
+                SortOptions.PRICE -> coinList.data.sortedBy { it.display?.usd?.price }
+                SortOptions.PRICE_REVERSED -> coinList.data.sortedBy { it.display?.usd?.price }.reversed()
+                SortOptions.NAME -> coinList.data.sortedBy { it.coinInfo?.name }
+                SortOptions.NAME_REVERSED -> coinList.data.sortedBy { it.coinInfo?.name }.reversed()
+            }
+
     }.stateIn(screenModelScope, SharingStarted.Lazily, emptyList())
 
     fun getAllCoinList() {
@@ -37,6 +47,10 @@ class HomeScreenViewModel(
 
     fun onSearchQueryChange(text: String) {
         _searchText.value = text
+    }
+
+    fun setSortOption(sortOption: SortOptions) {
+        _sortingOption.value = sortOption
     }
 
 }
