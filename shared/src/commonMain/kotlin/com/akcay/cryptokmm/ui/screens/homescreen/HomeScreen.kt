@@ -11,13 +11,15 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.akcay.cryptokmm.network.entities.response.Data
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 import com.akcay.cryptokmm.ui.components.CoinListItemView
 import com.akcay.cryptokmm.ui.components.CustomSearchBar
+import com.akcay.cryptokmm.ui.screens.detailscreen.DetailScreen
+import com.akcay.cryptokmm.ui.utils.LocalAppNavigator
 import dev.icerock.moko.resources.compose.painterResource
 import org.koin.compose.koinInject
 
@@ -30,6 +32,8 @@ fun HomeScreen(
 
     val coinList by screenModel.coinList.collectAsState()
     val searchText by screenModel.searchText.collectAsState()
+
+    val navigator = LocalAppNavigator.currentOrThrow
 
     Scaffold() {
         Column() {
@@ -56,7 +60,7 @@ fun HomeScreen(
                 items(coinList) { item ->
                     item.coinInfo?.let {
                         CoinListItemView(it, item.display) {
-                            screenModel.addCoinToDatabase(item)
+                            navigator.push(DetailScreen(item))
                         }
                     }
                 }

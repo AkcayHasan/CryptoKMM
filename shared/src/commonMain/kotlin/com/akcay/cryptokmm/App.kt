@@ -11,13 +11,11 @@ import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.transitions.SlideTransition
 import com.akcay.cryptokmm.ui.screens.mainscreen.MainScreen
+import com.akcay.cryptokmm.ui.utils.ProvideAppNavigator
 import org.koin.compose.KoinContext
 
 @Composable
 fun App() {
-
-    val localAppNavigator: ProvidableCompositionLocal<Navigator?> =
-        staticCompositionLocalOf { null }
 
     KoinContext {
         Surface(
@@ -27,7 +25,7 @@ fun App() {
             Navigator(
                 screen = MainScreen(),
             ) {
-                CompositionLocalProvider(localAppNavigator provides it) {
+                ProvideAppNavigator(it) {
                     SlideTransition(navigator = it)
                 }
             }

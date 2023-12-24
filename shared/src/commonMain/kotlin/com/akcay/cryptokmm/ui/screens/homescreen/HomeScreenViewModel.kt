@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 
 class HomeScreenViewModel(
     private val coinApi: CoinApi,
-    private val cryptoRepository: CryptoRepository
+
 ) : ScreenModel {
     private val _searchText = MutableStateFlow("")
     val searchText = _searchText.asStateFlow()
@@ -26,12 +26,6 @@ class HomeScreenViewModel(
             it.coinInfo?.fullName?.lowercase()?.contains(searchText.lowercase()) ?: false
         }
     }.stateIn(screenModelScope, SharingStarted.Lazily, emptyList())
-
-    fun addCoinToDatabase(coin: Data) {
-        screenModelScope.launch {
-            cryptoRepository.addCoin(coin)
-        }
-    }
 
     fun getAllCoinList() {
         screenModelScope.launch {

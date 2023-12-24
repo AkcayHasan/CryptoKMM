@@ -36,13 +36,12 @@ fun sharedModule() = module {
 
     single {
         HomeScreenViewModel(
-            coinApi = get(),
-            cryptoRepository = get()
+            coinApi = get()
         )
     }
 
     single {
-        DetailScreenViewModel(coinApi = get())
+        DetailScreenViewModel(coinApi = get(), cryptoRepository = get())
     }
 
     single {
