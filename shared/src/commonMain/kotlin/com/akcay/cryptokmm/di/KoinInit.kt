@@ -11,6 +11,7 @@ class KoinInit {
             modules(
                 listOf(
                     sharedModule(),
+                    platformModule(),
                     networkModule()
                 )
             )

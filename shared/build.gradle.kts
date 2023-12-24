@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.kotlinX.serialization.plugin)
     alias(libs.plugins.kotlinX.parcelable.plugin)
     alias(libs.plugins.compose.multiplatform)
+    alias(libs.plugins.sqlDelight.plugin)
     alias(libs.plugins.moko.plugin)
 }
 
@@ -47,6 +48,10 @@ kotlin {
                 implementation(libs.ktor.contentNegotiation)
                 implementation(libs.ktor.json)
 
+                implementation(libs.sqlDelight.runtime)
+                implementation(libs.sqlDelight.coroutine)
+                implementation(libs.primitive.adapters)
+
                 implementation(libs.kotlinX.serializationJson)
 
                 implementation(libs.moko.resources)
@@ -61,6 +66,7 @@ kotlin {
         val androidMain by getting {
             dependsOn(commonMain)
             dependencies {
+                implementation(libs.sqlDelight.android)
                 implementation(libs.compose.activity)
                 implementation(libs.core)
                 implementation(libs.ktor.clientOkhttp)
@@ -77,8 +83,17 @@ kotlin {
             iosArm64Main.dependsOn(this)
             iosSimulatorArm64Main.dependsOn(this)
             dependencies {
+                implementation(libs.sqlDelight.native)
                 implementation(libs.ktor.clientDarwin)
             }
+        }
+    }
+}
+
+sqldelight {
+    databases {
+        create("CryptoDatabase") {
+            packageName.set("com.akcay.cryptokmm.database")
         }
     }
 }

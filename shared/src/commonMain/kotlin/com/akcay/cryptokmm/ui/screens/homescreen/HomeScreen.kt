@@ -4,19 +4,11 @@ import CryptoKMM.shared.MR
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SearchBar
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
@@ -40,6 +32,7 @@ fun HomeScreen(
 
     Scaffold() {
         Column() {
+            Spacer(modifier = Modifier.height(10.dp))
             CustomSearchBar(modifier = Modifier, searchText, screenModel::onSearchQueryChange)
             Row(
                 modifier = Modifier.fillMaxWidth()
@@ -61,21 +54,13 @@ fun HomeScreen(
             LazyColumn(modifier = Modifier.fillMaxSize()) {
                 items(coinList) { item ->
                     item.coinInfo?.let {
-                        CoinListItemView(it, item.display)
+                        CoinListItemView(it, item.display) {
+                            screenModel.addCoinToDatabase(it)
+                        }
                     }
                 }
             }
 
         }
-    }
-}
-
-@Composable
-fun getIconForScreen(screen: String): Painter {
-    return when (screen) {
-        "Home" -> painterResource(MR.images.home_icon)
-        "Favourite" -> painterResource(MR.images.favourite_icon)
-        "Settings" -> painterResource(MR.images.settings_icon)
-        else -> painterResource(MR.images.home_icon)
     }
 }

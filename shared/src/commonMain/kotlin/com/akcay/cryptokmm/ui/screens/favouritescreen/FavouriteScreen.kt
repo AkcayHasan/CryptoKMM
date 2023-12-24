@@ -31,7 +31,7 @@ fun FavouriteScreen(
     screenModel: FavouriteScreenViewModel = koinInject()
 ) {
 
-    val coinList by screenModel.coinList.collectAsState()
+    val coinList by screenModel.coinTempList.collectAsState()
     val searchText by screenModel.searchText.collectAsState()
 
     Scaffold(topBar = {
@@ -55,8 +55,8 @@ fun FavouriteScreen(
 
             LazyColumn(modifier = Modifier.fillMaxSize()) {
                 items(coinList) { item ->
-                    item.coinInfo?.let {
-                        CoinListItemView(it, item.display)
+                    CoinListItemView(item) {
+
                     }
                 }
             }

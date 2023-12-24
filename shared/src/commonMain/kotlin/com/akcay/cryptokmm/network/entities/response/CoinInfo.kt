@@ -8,7 +8,7 @@ import kotlinx.serialization.Serializable
 @Parcelize
 @Serializable
 data class CoinInfo(
-    @SerialName("Id") var id: String? = null,
+    @SerialName("Id") var id: Int = 0,
     @SerialName("Name") var name: String? = null,
     @SerialName("FullName") var fullName: String? = null,
     @SerialName("Internal") var internal: String? = null,

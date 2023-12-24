@@ -3,13 +3,16 @@ package com.akcay.cryptokmm.ui.screens.homescreen
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
 import com.akcay.cryptokmm.network.api.CoinApi
+import com.akcay.cryptokmm.network.entities.response.CoinInfo
 import com.akcay.cryptokmm.network.entities.response.CoinListModel
+import com.akcay.cryptokmm.network.repository.CryptoRepository
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 class HomeScreenViewModel(
-    private val coinApi: CoinApi
+    private val coinApi: CoinApi,
+    private val cryptoRepository: CryptoRepository
 ) : ScreenModel {
     private val _searchText = MutableStateFlow("")
     val searchText = _searchText.asStateFlow()
@@ -22,6 +25,12 @@ class HomeScreenViewModel(
             it.coinInfo?.fullName?.lowercase()?.contains(searchText.lowercase()) ?: false
         }
     }.stateIn(screenModelScope, SharingStarted.Lazily, emptyList())
+
+    fun addCoinToDatabase(coin: CoinInfo) {
+        screenModelScope.launch {
+            cryptoRepository.addCoin(coin)
+        }
+    }
 
     fun getAllCoinList() {
         screenModelScope.launch {

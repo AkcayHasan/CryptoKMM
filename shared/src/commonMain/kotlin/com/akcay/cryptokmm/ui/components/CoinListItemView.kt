@@ -2,6 +2,7 @@ package com.akcay.cryptokmm.ui.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
@@ -20,12 +21,14 @@ import com.seiko.imageloader.rememberImagePainter
 var BASE_URL = "https://www.cryptocompare.com"
 
 @Composable
-fun CoinListItemView(coinInfo: CoinInfo, display: DISPLAY? = null) {
+fun CoinListItemView(coinInfo: CoinInfo, display: DISPLAY? = null, onClickItem: () -> Unit) {
     Box(
         modifier = Modifier.fillMaxWidth()
             .padding(start = 20.dp, bottom = 10.dp, end = 20.dp).clip(
                 RoundedCornerShape(10.dp)
-            ).background(Color(0xF2F2F2))
+            ).background(Color(0xF2F2F2)).clickable {
+                onClickItem.invoke()
+            }
     ) {
         Row(horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
             val painter = rememberImagePainter("$BASE_URL${coinInfo.imageUrl}")

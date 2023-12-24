@@ -1,0 +1,20 @@
+import kotlin.Int;
+
+
+CREATE TABLE cryptoEntity(
+    id INTEGER AS Int NOT NULL PRIMARY KEY AUTOINCREMENT,
+    name TEXT,
+    fullName TEXT,
+    internal TEXT,
+    imageUrl TEXT,
+    url TEXT
+);
+
+getAllCoins:
+SELECT * FROM cryptoEntity;
+
+insertCoin:
+INSERT OR REPLACE INTO cryptoEntity(id, name, fullName, internal, imageUrl, url) VALUES (?,?,?,?,?,?);
+
+deleteAllCoins:
+DELETE FROM cryptoEntity;
