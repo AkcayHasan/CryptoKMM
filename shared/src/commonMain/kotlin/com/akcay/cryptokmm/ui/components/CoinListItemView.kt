@@ -2,7 +2,6 @@ package com.akcay.cryptokmm.ui.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
@@ -14,25 +13,20 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import cafe.adriel.voyager.navigator.LocalNavigator
-import cafe.adriel.voyager.navigator.currentOrThrow
 import com.akcay.cryptokmm.network.entities.response.CoinInfo
 import com.akcay.cryptokmm.network.entities.response.DISPLAY
-import com.akcay.cryptokmm.ui.navigation.Screens
 import com.seiko.imageloader.rememberImagePainter
 
 var BASE_URL = "https://www.cryptocompare.com"
 
 @Composable
-fun CoinListItemView(coinInfo: CoinInfo, display: DISPLAY? = null) {
-    val navigator = LocalNavigator.currentOrThrow
-
+fun CoinListItemView(coinInfo: CoinInfo, display: DISPLAY? = null, onClickItem: () -> Unit) {
     Box(
         modifier = Modifier.fillMaxWidth()
             .padding(start = 20.dp, bottom = 10.dp, end = 20.dp).clip(
                 RoundedCornerShape(10.dp)
             ).background(Color(0xF2F2F2)).clickable {
-                navigator.push(Screens.DetailsScreen(coinInfo))
+                onClickItem.invoke()
             }
     ) {
         Row(horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
