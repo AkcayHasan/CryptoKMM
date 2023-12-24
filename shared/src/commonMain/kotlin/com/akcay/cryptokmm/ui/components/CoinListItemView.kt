@@ -30,20 +30,38 @@ fun CoinListItemView(coinInfo: CoinInfo, display: DISPLAY? = null, onClickItem: 
                 onClickItem.invoke()
             }
     ) {
-        Row(horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
+        Row(
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
             val painter = rememberImagePainter("$BASE_URL${coinInfo.imageUrl}")
-            Image(painter, contentDescription = null, modifier = Modifier.width(40.dp).height(40.dp))
+            Image(
+                painter,
+                contentDescription = null,
+                modifier = Modifier.width(40.dp).height(40.dp)
+            )
             Spacer(modifier = Modifier.width(10.dp))
-            Row(modifier = Modifier.fillMaxSize().padding(top = 10.dp, end = 10.dp, bottom = 10.dp),horizontalArrangement = Arrangement.SpaceBetween) {
+            Row(
+                modifier = Modifier.fillMaxSize().padding(top = 10.dp, end = 10.dp, bottom = 10.dp),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
                 Column(horizontalAlignment = Alignment.Start) {
                     Text(text = coinInfo.name ?: "", fontWeight = FontWeight.Bold, fontSize = 17.sp)
                     Spacer(modifier = Modifier.height(10.dp))
                     Text(text = coinInfo.fullName ?: "", fontSize = 13.sp)
                 }
                 Column(horizontalAlignment = Alignment.End) {
-                    Text(text = display?.usd?.price ?: "", fontWeight = FontWeight.Bold, fontSize = 17.sp)
+                    Text(
+                        text = display?.usd?.price ?: "",
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 17.sp
+                    )
                     Spacer(modifier = Modifier.height(10.dp))
-                    Text(text = display?.usd?.highHour ?: "", fontSize = 13.sp)
+                    PercentageView(
+                        display?.usd?.changePercentageHour,
+                        display?.usd?.highHour,
+                        fontSize = 13.sp
+                    )
                 }
             }
         }

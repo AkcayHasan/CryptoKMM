@@ -23,6 +23,7 @@ import cafe.adriel.voyager.navigator.currentOrThrow
 import com.akcay.cryptokmm.network.entities.response.Data
 import com.akcay.cryptokmm.ui.components.BASE_URL
 import com.akcay.cryptokmm.ui.components.CoinNewsItemView
+import com.akcay.cryptokmm.ui.components.PercentageViewWithIcon
 import com.akcay.cryptokmm.ui.utils.LocalAppNavigator
 import com.seiko.imageloader.rememberImagePainter
 import org.koin.compose.rememberKoinInject
@@ -86,7 +87,10 @@ data class DetailScreen(
                         fontWeight = FontWeight.Bold,
                         fontSize = 28.sp
                     )
-                    Text(coin.display?.usd?.highHour ?: "", fontSize = 15.sp)
+                    PercentageViewWithIcon(
+                        coin.display?.usd?.changePercentageHour,
+                        15.sp
+                    )
                     Spacer(modifier = Modifier.padding(20.dp))
                     Text(text = "News", modifier = Modifier.padding(20.dp))
                     LazyColumn(modifier = Modifier.fillMaxSize()) {

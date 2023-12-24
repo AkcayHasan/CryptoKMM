@@ -9,5 +9,6 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class USD(
     @SerialName("HIGHHOUR") var highHour: String? = null,
-    @SerialName("PRICE") var price: String? = null
+    @SerialName("PRICE") var price: String? = null,
+    @SerialName("CHANGEPCTHOUR") var changePercentageHour: String? = null,
 ) : Parcelable
