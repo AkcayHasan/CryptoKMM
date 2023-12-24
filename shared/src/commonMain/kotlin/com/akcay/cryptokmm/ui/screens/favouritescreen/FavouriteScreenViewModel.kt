@@ -4,6 +4,7 @@ import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
 import com.akcay.cryptokmm.network.entities.response.CoinInfo
 import com.akcay.cryptokmm.network.entities.response.CoinListModel
+import com.akcay.cryptokmm.network.entities.response.Data
 import com.akcay.cryptokmm.network.repository.CryptoRepository
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -22,12 +23,12 @@ class FavouriteScreenViewModel(
     private val _searchText = MutableStateFlow("")
     val searchText = _searchText.asStateFlow()
 
-    private var _coinList = MutableStateFlow(emptyList<CoinInfo>()).asStateFlow()
+    private var _coinList = MutableStateFlow(emptyList<Data>()).asStateFlow()
 
     @OptIn(FlowPreview::class)
     val coinList = _coinList.combine(_searchText.debounce(500L)) { coinList, searchText ->
         coinList.filter {
-            it.fullName?.lowercase()?.contains(searchText.lowercase()) ?: false
+            it.coinInfo?.fullName?.lowercase()?.contains(searchText.lowercase()) ?: false
         }
     }.stateIn(screenModelScope, SharingStarted.Lazily, emptyList())
 

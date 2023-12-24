@@ -5,6 +5,7 @@ import cafe.adriel.voyager.core.model.screenModelScope
 import com.akcay.cryptokmm.network.api.CoinApi
 import com.akcay.cryptokmm.network.entities.response.CoinInfo
 import com.akcay.cryptokmm.network.entities.response.CoinListModel
+import com.akcay.cryptokmm.network.entities.response.Data
 import com.akcay.cryptokmm.network.repository.CryptoRepository
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.*
@@ -26,7 +27,7 @@ class HomeScreenViewModel(
         }
     }.stateIn(screenModelScope, SharingStarted.Lazily, emptyList())
 
-    fun addCoinToDatabase(coin: CoinInfo) {
+    fun addCoinToDatabase(coin: Data) {
         screenModelScope.launch {
             cryptoRepository.addCoin(coin)
         }

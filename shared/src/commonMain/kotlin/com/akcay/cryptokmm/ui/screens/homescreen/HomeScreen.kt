@@ -15,6 +15,7 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.akcay.cryptokmm.network.entities.response.Data
 import com.akcay.cryptokmm.ui.components.CoinListItemView
 import com.akcay.cryptokmm.ui.components.CustomSearchBar
 import dev.icerock.moko.resources.compose.painterResource
@@ -55,7 +56,7 @@ fun HomeScreen(
                 items(coinList) { item ->
                     item.coinInfo?.let {
                         CoinListItemView(it, item.display) {
-                            screenModel.addCoinToDatabase(it)
+                            screenModel.addCoinToDatabase(item)
                         }
                     }
                 }
